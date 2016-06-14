@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Your To-Do list</h1>
+<form action="post">
+    <input type="text" name="item_text" id="id_new_item" placeholder="작업 아이템 입력"/>
+</form>
+
+<table id="id_list_table">
+    <tr>
+        <td></td>
+    </tr>
+</table>
+{% endblock %}
