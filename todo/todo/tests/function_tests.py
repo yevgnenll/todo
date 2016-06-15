@@ -1,11 +1,13 @@
 from django.test import TestCase
 from django.http import HttpRequest
 from django.template.loader import render_to_string
+from django.core.urlresolvers import reverse
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 from todo.views import home
+from lists.models import Item
 
 
 class HomeTestCase(TestCase):
@@ -21,22 +23,15 @@ class HomeTestCase(TestCase):
 
     def test_home_page_can_save_a_POST_request(self):
 
-        # setting
         request = HttpRequest()
         request.method = 'POST'
         request.POST['item_text'] = '신규 작업 아이템'
 
-        # exercise
         response = home(request)
 
-        # assert
-        self.assertIn('신규 작업 아이템', response.content.decode())
-        expected_html = render_to_string(
-            'home.html',
-            {'new_item_text': '신규 작업 아이템'},
-            request=request,
-        )
-        self.assertEqual(response.content.decode(), expected_html)
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.last()
+        self.assertEqual(new_item.text, '신규 작업 아이템')
 
     def check_for_row_in_list_table(self, row_text):
         # find to_do list in table
@@ -60,4 +55,24 @@ class HomeTestCase(TestCase):
         self.check_for_row_in_list_table('2: 공작깃털을 이용해서 그물 만들기')
         self.check_for_row_in_list_table('1: 공작깃털 사기')
 
-        self.fail('finish the test!')
+    def test_home_page_display_all_list_items(self):
+
+        Item.objects.create(text='itemey 1')
+        Item.objects.create(text='itemey 2')
+
+        request = HttpRequest()
+        response = home(request)
+
+        self.assertIn('itemey 1', response.content.decode())
+        self.assertIn('itemey 2', response.content.decode())
+
+    def test_home_page_redirects_after_POST(self):
+
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item_text'] = '신규 작업 아이템'
+
+        response = home(request)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], reverse('home'))
