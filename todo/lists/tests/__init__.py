@@ -1,1 +1,1 @@
-from .lists import ItemModelTest
+from .lists import ItemModelTest, ListViewTest

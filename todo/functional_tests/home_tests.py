@@ -63,17 +63,6 @@ class HomeTestCase(LiveServerTestCase):
         self.assertNotIn('공작깃털 사기', page_text)
         self.assertIn('우유사기', page_text)
 
-    def test_home_page_display_all_list_items(self):
-
-        Item.objects.create(text='itemey 1')
-        Item.objects.create(text='itemey 2')
-
-        request = HttpRequest()
-        response = home(request)
-
-        self.assertIn('itemey 1', response.content.decode())
-        self.assertIn('itemey 2', response.content.decode())
-
     def test_home_page_redirects_after_POST(self):
 
         request = HttpRequest()

@@ -47,7 +47,7 @@ class ListViewTest(LiveServerTestCase):
         Item.objects.create(text='itemey 2')
 
         request = HttpRequest()
-        response = home(request)
+        response = self.client.get('/lists/the-only-list-in-the-world/')
 
-        self.assertIn('itemey 1', response.content.decode())
-        self.assertIn('itemey 2', response.content.decode())
+        self.assertContains(response, 'itemey 1')
+        self.assertContains(response, 'itemey 2')
