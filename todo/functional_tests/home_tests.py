@@ -36,9 +36,12 @@ class HomeTestCase(LiveServerTestCase):
         inputbox.send_keys('공작깃털 사기')
         inputbox.send_keys(Keys.ENTER)
 
+        # edith가 접속함
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1: 공작깃털 사기')
+
+        self.browser.get(self.live_server_url)
 
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('공작깃털을 이용해서 그물 만들기')
@@ -49,9 +52,10 @@ class HomeTestCase(LiveServerTestCase):
 
         self.browser.quit()
         self.browser = webdriver.Firefox()
-
         self.browser.get(self.live_server_url)
-        page_text = self.browser.find_element_by_id('id_new_item')
+
+        # francis가 들어옴
+        inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('우유 사기')
         inputbox.send_keys(Keys.ENTER)
 

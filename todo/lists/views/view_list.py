@@ -8,6 +8,6 @@ def view_list(request):
 
     return render(
         request,
-        "home.html",
+        "lists/list.html",
         {'items': items},
     )

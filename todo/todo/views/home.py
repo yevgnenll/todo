@@ -13,13 +13,8 @@ def home(request):
             text=new_item_text,
         )
         return redirect('/lists/the-only-list-in-the-world/')
-    else:
-        new_item_text = ''
-
-    items = Item.objects.all()
 
     return render(
         request,
         "home.html",
-        {'items': items},
     )

@@ -6,16 +6,8 @@ To-Do list
 
 {% block content %}
 <h1>Your To-Do list</h1>
-<form method="post">
+<form method="post" action="{% url 'home' %}">
     <input type="text" name="item_text" id="id_new_item" placeholder="작업 아이템 입력"/>
     {% csrf_token %}
 </form>
-
-<table id="id_list_table">
-    {% for item in items %}
-    <tr>
-        <td>{{ forloop.counter }}: {{ item.text }}</td>
-    </tr>
-    {% endfor %}
-</table>
 {% endblock %}
