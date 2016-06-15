@@ -1,9 +1,5 @@
 test:
-<<<<<<< HEAD
 	python todo/manage.py test functional_tests lists
-=======
-	python todo/manage.py test functional_tests 
->>>>>>> 29992ec37751d20f4777f5b92af303c2e2963830
 
 migrate:
 	python todo/manage.py makemigrations todo lists
