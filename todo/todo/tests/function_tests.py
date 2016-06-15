@@ -1,7 +1,11 @@
 from django.test import TestCase
+from django.http import HttpRequest
+from django.template.loader import render_to_string
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+
+from todo.views import home
 
 
 class HomeTestCase(TestCase):
@@ -14,6 +18,25 @@ class HomeTestCase(TestCase):
     def tearDown(self):
 
         self.browser.quit()
+
+    def test_home_page_can_save_a_POST_request(self):
+
+        # setting
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['item_text'] = '신규 작업 아이템'
+
+        # exercise
+        response = home(request)
+
+        # assert
+        self.assertIn('신규 작업 아이템', response.content.decode())
+        expected_html = render_to_string(
+            'home.html',
+            {'new_item_text': '신규 작업 아이템'},
+            request=request,
+        )
+        self.assertEqual(response.content.decode(), expected_html)
 
     def test_check_my_table(self):
 
