@@ -50,11 +50,6 @@ class HomeTestCase(TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == '1: 공작깃털 사기' for row in rows),
-            "신규 작업 아이템이 테이블에 표시되지 않는다 -- \n해당 텍스트: {item_text}".format(
-                item_text=table.text,
-            )
-        )
+        self.assertIn('1: 공작깃털 사기', [row.text for row in rows])
 
         self.fail('finish the test!')
