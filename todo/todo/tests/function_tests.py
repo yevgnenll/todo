@@ -13,7 +13,7 @@ class HomeTestCase(TestCase):
     def setUp(self):
 
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)
+        self.browser.get('http://localhost:8000')
 
     def tearDown(self):
 
@@ -38,9 +38,14 @@ class HomeTestCase(TestCase):
         )
         self.assertEqual(response.content.decode(), expected_html)
 
-    def test_check_my_table(self):
+    def check_for_row_in_list_table(self, row_text):
+        # find to_do list in table
 
-        self.browser.get('http://localhost:8000')
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
+    def test_check_my_table(self):
 
         self.assertIn('To-Do', self.browser.title)
 
@@ -52,12 +57,7 @@ class HomeTestCase(TestCase):
         inputbox.send_keys('공작깃털을 이용해서 그물 만들기')
         inputbox.send_keys(Keys.ENTER)
 
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: 공작깃털 사기', [row.text for row in rows])
-        self.assertIn(
-            '2: 공작깃털을 이용해서 그물 만들기',
-            [row.text for row in rows],
-        )
+        self.check_for_row_in_list_table('2: 공작깃털을 이용해서 그물 만들기')
+        self.check_for_row_in_list_table('1: 공작깃털 사기')
 
         self.fail('finish the test!')
