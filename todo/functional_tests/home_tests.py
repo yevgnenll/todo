@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import LiveServerTestCase
 from django.http import HttpRequest
 from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
@@ -10,12 +10,12 @@ from todo.views import home
 from lists.models import Item
 
 
-class HomeTestCase(TestCase):
+class HomeTestCase(LiveServerTestCase):
 
     def setUp(self):
 
         self.browser = webdriver.Firefox()
-        self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
 
     def tearDown(self):
 
