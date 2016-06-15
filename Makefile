@@ -1,6 +1,9 @@
 test:
 	python todo/manage.py test functional_tests lists
 
+list:
+	python todo/manage.py test lists
+
 migrate:
 	python todo/manage.py makemigrations todo lists
 	python todo/manage.py migrate

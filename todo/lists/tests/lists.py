@@ -1,6 +1,8 @@
 from django.test import LiveServerTestCase
+from django.http import HttpRequest
 
 from lists.models import Item
+from todo.views import home
 
 
 class ItemModelTest(LiveServerTestCase):
@@ -36,6 +38,9 @@ class ItemModelTest(LiveServerTestCase):
         new_item = Item.objects.last()
         self.assertEqual(new_item.text, '신규 작업 아이템')
 
+
+class ListViewTest(LiveServerTestCase):
+
     def test_home_page_display_all_list_items(self):
 
         Item.objects.create(text='itemey 1')
@@ -46,14 +51,3 @@ class ItemModelTest(LiveServerTestCase):
 
         self.assertIn('itemey 1', response.content.decode())
         self.assertIn('itemey 2', response.content.decode())
-
-    def test_home_page_redirects_after_POST(self):
-
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['item_text'] = '신규 작업 아이템'
-
-        response = home(request)
-
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], reverse('home'))

@@ -12,7 +12,7 @@ def home(request):
         Item.objects.create(
             text=new_item_text,
         )
-        return redirect(reverse('home'))
+        return redirect('/lists/the-only-list-in-the-world/')
     else:
         new_item_text = ''
 
