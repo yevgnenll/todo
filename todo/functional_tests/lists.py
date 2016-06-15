@@ -1,9 +1,9 @@
-from django.test import TestCase
+from django.test import LiveServerTestCase
 
 from lists.models import Item
 
 
-class ItemModelTest(TestCase):
+class ItemModelTest(LiveServerTestCase):
 
     def test_saving_and_retrieving_items(self):
 
