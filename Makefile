@@ -1,8 +1,8 @@
 test:
-	python todo/manage.py test todo
+	python todo/manage.py test todo lists
 
 migrate:
-	python todo/manage.py makemigrations todo 
+	python todo/manage.py makemigrations todo lists
 	python todo/manage.py migrate
 
 clean:
