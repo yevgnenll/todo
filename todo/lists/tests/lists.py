@@ -1,7 +1,7 @@
 from django.test import LiveServerTestCase
 from django.http import HttpRequest
 
-from lists.models import Item
+from lists.models import Item, Inventory
 from todo.views import home
 
 
@@ -9,12 +9,16 @@ class ItemModelTest(LiveServerTestCase):
 
     def test_saving_and_retrieving_items(self):
 
+        inven = Inventory.objects.create()
+
         first_item = Item()
         first_item.text = '첫 번째 아이템'
+        first_item.inven = inven
         first_item.save()
 
         second_item = Item()
         second_item.text = '두 번째 아이템'
+        second_item.inven = inven
         second_item.save()
 
         saved_item = Item.objects.all()
@@ -36,8 +40,10 @@ class ListViewTest(LiveServerTestCase):
 
     def test_display_all_list_items(self):
 
-        Item.objects.create(text='itemey 1')
-        Item.objects.create(text='itemey 2')
+        inven = Inventory.objects.create()
+
+        Item.objects.create(text='itemey 1', inven=inven)
+        Item.objects.create(text='itemey 2', inven=inven)
 
         request = HttpRequest()
         response = self.client.get('/lists/the-only-list-in-the-world/')
