@@ -26,18 +26,6 @@ class ItemModelTest(LiveServerTestCase):
         self.assertEqual(first_saved_item.text, '첫 번째 아이템')
         self.assertEqual(second_item.text, '두 번째 아이템')
 
-    def test_home_page_can_save_a_POST_request(self):
-
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['item_text'] = '신규 작업 아이템'
-
-        response = home(request)
-
-        self.assertEqual(Item.objects.count(), 1)
-        new_item = Item.objects.last()
-        self.assertEqual(new_item.text, '신규 작업 아이템')
-
 
 class ListViewTest(LiveServerTestCase):
 

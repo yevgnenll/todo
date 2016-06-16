@@ -30,13 +30,13 @@ class HomeTestCase(LiveServerTestCase):
 
     def test_check_my_table(self):
 
+        # edith 접속
         self.assertIn('To-Do', self.browser.title)
 
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('공작깃털 사기')
         inputbox.send_keys(Keys.ENTER)
 
-        # edith가 접속함
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
         self.check_for_row_in_list_table('1: 공작깃털 사기')
@@ -66,14 +66,3 @@ class HomeTestCase(LiveServerTestCase):
         page_text = self.browser.find_elements_by_tag_name('body').text
         self.assertNotIn('공작깃털 사기', page_text)
         self.assertIn('우유사기', page_text)
-
-    def test_home_page_redirects_after_POST(self):
-
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['item_text'] = '신규 작업 아이템'
-
-        response = home(request)
-
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
